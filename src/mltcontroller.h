@@ -168,6 +168,7 @@ public:
     static int filterOut(Mlt::Playlist&playlist, int clipIndex);
     void setPreviewScale(int scale);
     void updatePreviewProfile();
+    static bool fullRange(Mlt::Producer& producer);
 
 protected:
     Mlt::Repository* m_repo;

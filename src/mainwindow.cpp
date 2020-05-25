@@ -4135,13 +4135,19 @@ void MainWindow::on_actionLayoutRemove_triggered()
 
 void MainWindow::onAppendToPlaylist(const QString& xml)
 {
-    undoStack()->push(new Playlist::AppendCommand(*m_playlistDock->model(), xml, false));
+    Mlt::Producer p(MLT.profile(), "xml-string", xml.toUtf8().constData());
+    if (ProxyManager::generateIfNotExists(p)) {
+        undoStack()->push(new Playlist::AppendCommand(*m_playlistDock->model(), MLT.XML(&p), false));
+    } else {
+        undoStack()->push(new Playlist::AppendCommand(*m_playlistDock->model(), xml, false));
+    }
 }
 
 void MainWindow::onAppendTaskDone()
 {
     qApp->processEvents();
     emit m_playlistDock->model()->modified();
+    m_playlistDock->refreshTableView();
 }
 
 void MainWindow::on_actionOpenOther2_triggered()

@@ -1258,6 +1258,27 @@ void Controller::updatePreviewProfile()
     m_previewProfile.set_explicit(true);
 }
 
+bool Controller::fullRange(Producer& producer)
+{
+    bool full = !qstrcmp(producer.get("meta.media.color_range"), "full");
+    for (int i = 0; !full && i < producer.get_int("meta.media.nb_streams"); i++) {
+        QString key = QString("meta.media.%1.stream.type").arg(i);
+        QString streamType(producer.get(key.toLatin1().constData()));
+        if (streamType == "video") {
+            if (i == producer.get_int("video_index")) {
+                key = QString("meta.media.%1.codec.pix_fmt").arg(i);
+                QString pix_fmt = QString::fromLatin1(producer.get(key.toLatin1().constData()));
+                if (pix_fmt.startsWith("yuvj")) {
+                    full = true;
+                } else if (pix_fmt.contains("gbr") || pix_fmt.contains("rgb")) {
+                    full = true;
+                }
+            }
+        }
+    }
+    return full;
+}
+
 void TransportControl::play(double speed)
 {
     MLT.play(speed);

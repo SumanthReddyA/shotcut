@@ -1301,6 +1301,7 @@ void MultitrackModel::appendFromPlaylist(Mlt::Playlist *from, int trackIndex)
             if (!clip->is_blank()) {
                 QString xml = MLT.XML(&clip.data()->parent());
                 Mlt::Producer producer(MLT.profile(), "xml-string", xml.toUtf8().constData());
+                ProxyManager::generateIfNotExists(producer);
                 producer.set_in_and_out(0, producer.get_length() - 1);
                 playlist.append(producer.parent(), clip->get_in(), clip->get_out());
                 QModelIndex modelIndex = createIndex(j, 0, trackIndex);
