@@ -78,6 +78,7 @@
 #include "widgets/textproducerwidget.h"
 #include "qmltypes/qmlprofile.h"
 #include "dialogs/systemsyncdialog.h"
+#include "proxymanager.h"
 
 #include <QtWidgets>
 #include <Logger.h>
@@ -4450,19 +4451,7 @@ void MainWindow::on_actionProxyStorageSet_triggered()
 
 void MainWindow::on_actionProxyStorageShow_triggered()
 {
-    // Use project folder + "/proxies" if using project folder and enabled
-    QDir dir(MLT.projectFolder());
-    if (!MLT.projectFolder().isEmpty() && dir.exists() && Settings.proxyUseProjectFolder()) {
-        const char* subfolder = "proxies";
-        if (!dir.cd(subfolder)) {
-            if (dir.mkdir(subfolder))
-                dir.cd(subfolder);
-        }
-        Util::showInFolder(dir.path());
-    } else {
-        // Otherwise, use app setting
-        Util::showInFolder(Settings.proxyFolder());
-    }
+    Util::showInFolder(ProxyManager::dir().path());
 }
 
 void MainWindow::on_actionProxyUseProjectFolder_triggered(bool checked)

@@ -13,6 +13,7 @@ SOURCES += main.cpp\
     dialogs/systemsyncdialog.cpp \
     mainwindow.cpp \
     mltcontroller.cpp \
+    proxymanager.cpp \
     scrubbar.cpp \
     openotherdialog.cpp \
     controllers/filtercontroller.cpp \
@@ -132,6 +133,7 @@ mac: OBJECTIVE_SOURCES = macos.mm
 HEADERS  += mainwindow.h \
     dialogs/systemsyncdialog.h \
     mltcontroller.h \
+    proxymanager.h \
     scrubbar.h \
     openotherdialog.h \
     controllers/filtercontroller.h \
