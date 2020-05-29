@@ -1890,7 +1890,8 @@ static QStringList codecs()
 void EncodeDock::on_hwencodeCheckBox_clicked(bool checked)
 {
     if (checked && Settings.encodeHardware().isEmpty()) {
-        detectHardwareEncoders();
+        if (!detectHardwareEncoders())
+            ui->hwencodeCheckBox->setChecked(false);
     }
     Settings.setEncodeUseHardware(ui->hwencodeCheckBox->isChecked());
     resetOptions();
@@ -1985,7 +1986,7 @@ void EncodeDock::on_parallelCheckbox_clicked(bool checked)
     Settings.setEncodeParallelProcessing(checked);
 }
 
-void EncodeDock::detectHardwareEncoders()
+bool EncodeDock::detectHardwareEncoders()
 {
     MAIN.showStatusMessage(tr("Detecting hardware encoders..."));
     QStringList hwlist;
@@ -2021,9 +2022,9 @@ void EncodeDock::detectHardwareEncoders()
     }
     if (hwlist.isEmpty()) {
         MAIN.showStatusMessage(tr("Nothing found"), 10);
-        ui->hwencodeCheckBox->setChecked(false);
     } else {
         MAIN.showStatusMessage(tr("Found %1").arg(hwlist.join(", ")));
         Settings.setEncodeHardware(hwlist);
     }
+    return !hwlist.isEmpty();
 }
