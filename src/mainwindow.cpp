@@ -4285,6 +4285,7 @@ void MainWindow::on_actionPreviewNone_triggered(bool checked)
     if (checked) {
         Settings.setPlayerPreviewScale(0);
         setPreviewScale(0);
+        m_player->showIdleStatus();
     }
 }
 
@@ -4293,6 +4294,7 @@ void MainWindow::on_actionPreview360_triggered(bool checked)
     if (checked) {
         Settings.setPlayerPreviewScale(360);
         setPreviewScale(360);
+        m_player->showIdleStatus();
     }
 }
 
@@ -4301,6 +4303,7 @@ void MainWindow::on_actionPreview540_triggered(bool checked)
     if (checked) {
         Settings.setPlayerPreviewScale(540);
         setPreviewScale(540);
+        m_player->showIdleStatus();
     }
 }
 
@@ -4309,6 +4312,7 @@ void MainWindow::on_actionPreview720_triggered(bool checked)
     if (checked) {
         Settings.setPlayerPreviewScale(720);
         setPreviewScale(720);
+        m_player->showIdleStatus();
     }
 }
 
@@ -4417,6 +4421,7 @@ void MainWindow::on_actionUseProxy_triggered(bool checked)
         showSaveError();
     } else {
         Settings.setProxyEnabled(checked);
+        m_player->showIdleStatus();
     }
 }
 
